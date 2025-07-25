@@ -1,38 +1,110 @@
-.App {
-  text-align: center;
+*{
+  color:black;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.displaybox{
+  /* background-color: aqua; */
+  height: 50vh;
+  border-radius: 1rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+}
+
+input {
+  width: 300px; /* Increase as needed */
+  padding: 12px 18px;
+  font-size: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  background-color: transparent;
+  color: rgba(22, 21, 21, 0.5);
+  
+
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(22, 21, 21, 0.5);
+}
+
+input:hover {
+  border-color: #00ffff;
+  box-shadow: 0 0 100px rgba(0, 255, 255, 0.5);
+  border: none;
+  transition : all 0.5s ease;
+}
+
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+
+.search{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+
+}
+
+
+.display-area p {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  margin: 0;
+}
+
+
+.display-area {
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+  padding-bottom: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  
+}
+
+.display-area p {
+  transition: all 0.3s ease ;
+  font-size: 1.5rem;
+}
+
+.weather{
+  height: 40vh;
+  margin-top: 20vh;
+  margin-left: 20vh;
+  margin-right: 20vw;
+  margin-bottom: 10vh;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
