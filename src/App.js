@@ -5,7 +5,7 @@ import "./App.css";
 const App = () => {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(false); // New loading state
+  const [loading, setLoading] = useState(false); 
 
   function handlechange(e) {
     setCity(e.target.value);
@@ -19,7 +19,7 @@ const App = () => {
     }
 
     const fetchweather = async () => {
-      setLoading(true); // Start loading
+      setLoading(true); 
       try {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=308510d44f67f3cdd6c81a2fd5ec034a`
@@ -36,7 +36,7 @@ const App = () => {
         console.error("Error fetching weather data:", error);
         setWeather(null);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false); 
       }
     };
 
