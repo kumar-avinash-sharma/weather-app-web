@@ -1,109 +1,92 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import {
-  faCloud,
-  faSun,
-  faCloudRain,
-  faSnowflake,
-  faSmog,
-  faBolt
-} from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
+import mycloud from "./assets/mycloud.mp4";
+import "./App.css";
 
-function App() {
-  const [city, setCity] = useState('');
+const App = () => {
+  const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
+  const [loading, setLoading] = useState(false); // New loading state
 
-  function getWeatherIcon() {
-    if (!weather) return faCloud;
-
-    const mainWeather = weather.weather[0].main;
-
-    switch (mainWeather) {
-      case "Clear":
-        return faSun;
-      case "Clouds":
-        return faCloud;
-      case "Rain":
-        return faCloudRain;
-      case "Snow":
-        return faSnowflake;
-      case "Thunderstorm":
-        return faBolt;
-      case "Mist":
-      case "Smoke":
-      case "Haze":
-      case "Fog":
-        return faSmog;
-      default:
-        return faCloud;
-    }
+  function handlechange(e) {
+    setCity(e.target.value);
   }
 
   useEffect(() => {
-    const fetchWeather = async () => {
-      if (!city) return;
+    if (!city) {
+      setWeather(null);
+      setLoading(false);
+      return;
+    }
+
+    const fetchweather = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=308510d44f67f3cdd6c81a2fd5ec034a`
         );
         const data = await response.json();
+
         if (data.cod === 200) {
           setWeather(data);
         } else {
           setWeather(null);
-          console.log("City not found");
+          console.log(data.message);
         }
       } catch (error) {
         console.error("Error fetching weather data:", error);
         setWeather(null);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
-    const timeout = setTimeout(() => {
-      fetchWeather();
-    }, 500); // Slightly increased delay for better performance
+    const time = setTimeout(() => {
+      fetchweather();
+    }, 1000);
 
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(time);
   }, [city]);
 
+  let display;
+  if (!city) {
+    display = <p>Type a city name...</p>;
+  } else if (loading) {
+    display = <p>Fetching weather...</p>;
+  } else if (weather) {
+    display = (
+      <>
+        <p>{weather.name}</p>
+        <p>{weather.weather[0].main}</p>
+        <p>{weather.main.temp} °C</p>
+      </>
+    );
+  } else {
+    display = <p>No weather data</p>;
+  }
+
   return (
-    <div className="weather">
-      <video autoPlay muted loop playsInline className="background-video">
-        <source src="/cloudy.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <>
+      <video
+        src={mycloud}
+        className="background-video"
+        autoPlay
+        muted
+        loop
+      ></video>
 
-      <div className="displaybox">
-        <div className="search">
-          <input
-            type="text"
-            placeholder="Enter city..."
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-        </div>
-
-        <div className="display-area">
-          {weather ? (
-            <>
-              <p className="icon">
-                <FontAwesomeIcon
-                  icon={getWeatherIcon()}
-                  style={{ fontSize: '5rem', color: '#18d3d3ff' }}
-                />
-              </p>
-              <p className="cityname">{weather.name}</p>
-              <p className="weathertype">{weather.weather[0].main}</p>
-              <p className="temperature">{weather.main.temp}°C</p>
-            </>
-          ) : (
-            city && <p className="notfound">City not found or loading...</p>
-          )}
-        </div>
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Enter city..."
+          value={city}
+          onChange={handlechange}
+          className="inputarea"
+        />
       </div>
-    </div>
+
+      <div className="display-area">{display}</div>
+    </>
   );
-}
+};
 
 export default App;
